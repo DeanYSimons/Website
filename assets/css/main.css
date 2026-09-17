@@ -2212,10 +2212,9 @@ input, select, textarea {
 			}
 
 			.panel > *.color3 {
-				background-image: none;
-				background-color: rgb(210, 180, 110);
-				background-size: auto;
-			
+				background-image: url("../../images/overlay.png"), linear-gradient(45deg, rgba(210, 180, 110, 0.25) 25%, rgba(210, 180, 110, 0.25) 50%, rgba(210, 180, 110, 0.25));
+				background-size: 128px 128px, auto;
+				background-color: #FFFFFF;
 			}
 
 			.panel > *.color4 {

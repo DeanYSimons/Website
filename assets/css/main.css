@@ -2219,7 +2219,7 @@ input, select, textarea {
 			}
 
 			.panel > *.color4 {
-				background-image: url("../../images/overlay.png"), linear-gradient(45deg, rgb(54, 46, 56) 25%, rgb(210, 180, 110) 50%, rgb(112, 101, 115) 100%);
+				background-image: url("../../images/overlay.png"), linear-gradient(45deg, rgb(94, 35, 69) 25%, rgb(210, 180, 110) 50%, rgb(166, 77, 121) 100%));
 				background-size: 128px 128px, auto;
 				background-color: #FFFFFF;
 			}

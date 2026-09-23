@@ -39,7 +39,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            background-color: rgba(13, 17, 23, 0.85);
+            background-color: var(--surface-color); /* Uses your solid warm tan/burlap color */
             backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--surface-border);
             display: flex;
@@ -51,9 +51,14 @@
 
         .logo {
             font-weight: 700;
-            color: var(--text-heading);
+            color: var(--text-heading); /* Uses your deep heading color instead of pure black */
             font-size: 1.2rem;
             text-decoration: none;
+            transition: color var(--transition-speed);
+        }
+
+        .logo:hover {
+            color: var(--accent-blue); /* Highlights purple when hovered */
         }
 
         nav ul {

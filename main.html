@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dean Simons | Electrical Engineering Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --surface-color: #161b22;
+            --surface-border: #30363d;
+            --text-primary: #c9d1d9;
+            --text-heading: #ffffff;
+            --accent-blue: #58a6ff;
+            --accent-glow: rgba(88, 166, 255, 0.15);
+            --transition-speed: 0.3s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Navigation Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(13, 17, 23, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-weight: 700;
+            color: var(--text-heading);
+            font-size: 1.2rem;
+            text-decoration: none;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color var(--transition-speed);
+        }
+
+        nav a:hover {
+            color: var(--accent-blue);
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 7rem 2rem 4rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 6rem;
+        }
+
+        section {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--text-heading);
+            border-bottom: 2px solid var(--surface-border);
+            padding-bottom: 0.5rem;
+        }
+
+        /* Hero / Landing Section */
+        .hero-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 3rem;
+            min-height: 80vh;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            color: var(--text-heading);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Interactive Photo Flip Container */
+        .photo-container {
+            width: 280px;
+            height: 350px;
+            perspective: 1000px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .photo-card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            border: 1px solid var(--surface-border);
+        }
+
+        .photo-container:hover .photo-card,
+        .photo-container:active .photo-card {
+            transform: rotateY(180deg);
+        }
+
+        .photo-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: var(--surface-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-back {
+            transform: rotateY(180deg);
+        }
+
+        .photo-face img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Modular Image Overlay Grid System */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            position: relative;
+            height: 280px;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            transition: transform var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-blue);
+            box-shadow: 0 6px 20px var(--accent-glow);
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .project-card:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Image Overlay Content */
+        .project-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem;
+            background: linear-gradient(to top, rgba(13, 17, 23, 0.95) 20%, rgba(13, 17, 23, 0.6) 70%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .project-overlay h3 {
+            color: var(--text-heading);
+            font-size: 1.25rem;
+        }
+
+        .project-overlay p {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.2rem;
+        }
+
+        .tag {
+            background-color: rgba(88, 166, 255, 0.15);
+            color: var(--accent-blue);
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        /* Project Detail Modal / Page View */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: 12px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2.5rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .close-modal:hover {
+            color: var(--accent-blue);
+        }
+
+        .modal-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .modal-gallery img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--surface-border);
+        }
+
+        /* Contact Section */
+        .contact-container {
+            background-color: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: 12px;
+            padding: 2.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .contact-info p {
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-btn {
+            background-color: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            color: var(--text-heading);
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: border-color var(--transition-speed);
+        }
+
+        .social-btn:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .form-group label {
+            font-size: 0.9rem;
+            color: var(--text-heading);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            background-color: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            border-radius: 6px;
+            padding: 0.75rem;
+            color: var(--text-primary);
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        .submit-btn {
+            background-color: var(--accent-blue);
+            color: #000;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity var(--transition-speed);
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                flex-direction: column-reverse;
+                text-align: center;
+                gap: 2rem;
+            }
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Navigation -->
+    <header>
+        <a href="#" class="logo">deansimons.dev</a>
+        <nav>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#technical">Technical</a></li>
+                <li><a href="#creative">Creative</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="main-container">
+
+        <!-- Hero / Landing Section -->
+        <section id="about" class="hero-section">
+            <div class="hero-content">
+                <h1>Dean Simons</h1>
+                <p>Electrical Engineering student at Rensselaer Polytechnic Institute (RPI). Passionate about control systems, robotics hardware, and creative technical design.</p>
+                <p><em>Hover or tap my photo on the right to toggle between professional and casual views!</em></p>
+            </div>
+            <div class="photo-container" title="Hover to flip photo">
+                <div class="photo-card">
+                    <!-- Professional Photo (Front) -->
+                    <div class="photo-face">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" alt="Dean Simons - Professional">
+                    </div>
+                    <!-- Casual Photo (Back) -->
+                    <div class="photo-face photo-back">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80" alt="Dean Simons - Casual">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Portfolio Section -->
+        <section id="technical">
+            <h2>Technical Portfolio</h2>
+            <div class="project-grid">
+                
+                <!-- Modular Project Card with Overlay & Detail Data -->
+                <div class="project-card" onclick="openProject('combat-robot')">
+                    <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80" alt="Combat Robot">
+                    <div class="project-overlay">
+                        <h3>Combat Robot</h3>
+                        <p>High-torque motor controllers and custom armor design.</p>
+                        <div class="project-tags">
+                            <span class="tag">Hardware</span>
+                            <span class="tag">CAD</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" onclick="openProject('control-systems')">
+                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80" alt="Control Systems">
+                    <div class="project-overlay">
+                        <h3>Control Systems Platform</h3>
+                        <p>Feedback control algorithms and actuator telemetry dashboards.</p>
+                        <div class="project-tags">
+                            <span class="tag">Embedded C++</span>
+                            <span class="tag">Sensors</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Creative Portfolio Section -->
+        <section id="creative">
+            <h2>Creative Portfolio</h2>
+            <div class="project-grid">
+
+                <div class="project-card" onclick="openProject('game-dev')">
+                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80" alt="Game Development">
+                    <div class="project-overlay">
+                        <h3>Game Development</h3>
+                        <p>Interactive levels and custom physics interactions.</p>
+                        <div class="project-tags">
+                            <span class="tag">Unity</span>
+                            <span class="tag">C#</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" onclick="openProject('photography-3d')">
+                    <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=600&q=80" alt="Photography & 3D Printing">
+                    <div class="project-overlay">
+                        <h3>Digital Photography & 3D Printing</h3>
+                        <p>High-dynamic-range imagery and TPU mechanical enclosures.</p>
+                        <div class="project-tags">
+                            <span class="tag">Nikon</span>
+                            <span class="tag">Additive Mfg</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <h2>Contact Me</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <p>Whether you want to discuss engineering projects, robotics collaborations, or music and creative works, feel free to reach out!</p>
+                    <div class="social-links">
+                        <a href="https://linkedin.com" target="_blank" class="social-btn">LinkedIn</a>
+                        <a href="https://github.com" target="_blank" class="social-btn">GitHub</a>
+                    </div>
+                </div>
+                <form class="contact-form" action="mailto:your-email@domain.com" method="POST" enctype="text/plain">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" required placeholder="Jane Doe">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Your Email</label>
+                        <input type="email" id="email" name="email" required placeholder="jane@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="4" required placeholder="Let's build something together..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Project Detail Modal Popup -->
+    <div id="projectModal" class="modal" onclick="outsideClose(event)">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeProject()">&times;</button>
+            <h2 id="modalTitle">Project Title</h2>
+            <p id="modalDescription">Project deep-dive description goes here...</p>
+            <div id="modalGallery" class="modal-gallery">
+                <!-- Dynamic gallery images will load here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Database of project details (easily editable/expandable)
+        const projectsData = {
+            'combat-robot': {
+                title: 'Combat Robot',
+                description: 'Engineered robust drive bases and custom weapon electronics designed to withstand high-impact competitive environments. Focused on optimized weight distribution, rapid repair turnaround, and reliable power distribution systems.',
+                images: [
+                    'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80',
+                    'https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=600&q=80'
+                ]
+            },
+            'control-systems': {
+                title: 'Control Systems Platform',
+                description: 'Designed custom closed-loop feedback controllers utilizing embedded C++ microcontrollers and real-time sensor fusion telemetry to ensure precise stability and actuation response.',
+                images: [
+                    'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80',
+                    'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80'
+                ]
+            },
+            'game-dev': {
+                title: 'Game Development',
+                description: 'Built interactive prototypes featuring custom gameplay loops, physics interactions, and modular scripting architectures in Unity.',
+                images: [
+                    'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80',
+                    'https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?auto=format&fit=crop&w=600&q=80'
+                ]
+            },
+            'photography-3d': {
+                title: 'Digital Photography & 3D Printing',
+                description: 'Explored visual composition through digital photography workflows and engineered functional brackets and enclosures utilizing custom TPU 3D printing filaments.',
+                images: [
+                    'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=600&q=80',
+                    'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80'
+                ]
+            }
+        };
+
+        function openProject(projectId) {
+            const data = projectsData[projectId];
+            if (!data) return;
+
+            document.getElementById('modalTitle').innerText = data.title;
+            document.getElementById('modalDescription').innerText = data.description;
+            
+            const gallery = document.getElementById('modalGallery');
+            gallery.innerHTML = '';
+            data.images.forEach(imgUrl => {
+                const img = document.createElement('img');
+                img.src = imgUrl;
+                gallery.appendChild(img);
+            });
+
+            document.getElementById('projectModal').classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeProject() {
+            document.getElementById('projectModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function outsideClose(event) {
+            if (event.target.id === 'projectModal') {
+                closeProject();
+            }
+        }
+    </script>
+</body>
+</html>

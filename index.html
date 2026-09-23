@@ -23,13 +23,13 @@
             padding: 0;
         }
 
-        body {
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Lock standard vertical scroll to drive horizontal layout */
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
         }
 
         /* Navigation Header */
@@ -67,42 +67,54 @@
             font-size: 0.95rem;
             font-weight: 500;
             transition: color var(--transition-speed);
+            cursor: pointer;
         }
 
         nav a:hover {
             color: var(--accent-blue);
         }
 
-        /* Main Container */
-        .main-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 7rem 2rem 4rem 2rem;
+        /* Horizontal Scroll Wrapper Container */
+        .horizontal-container {
             display: flex;
-            flex-direction: column;
-            gap: 6rem;
+            width: max-content;
+            height: 100vh;
+            padding-top: 60px; /* offset for header */
+            transition: transform 0.1s ease-out;
         }
 
-        section {
+        /* Fullscreen Section Panels */
+        .panel {
+            width: 100vw;
+            height: calc(100vh - 60px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem;
+            flex-shrink: 0;
+        }
+
+        .panel-content {
+            max-width: 1100px;
+            width: 100%;
             display: flex;
             flex-direction: column;
             gap: 2rem;
         }
 
         h2 {
-            font-size: 2rem;
+            font-size: 2.2rem;
             color: var(--text-heading);
             border-bottom: 2px solid var(--surface-border);
             padding-bottom: 0.5rem;
         }
 
-        /* Hero / Landing Section */
+        /* Landing Hero Section */
         .hero-section {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 3rem;
-            min-height: 80vh;
+            gap: 4rem;
         }
 
         .hero-content {
@@ -110,75 +122,59 @@
         }
 
         .hero-content h1 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             color: var(--text-heading);
             margin-bottom: 1rem;
             line-height: 1.2;
         }
 
         .hero-content p {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             margin-bottom: 1.5rem;
         }
 
-        /* Interactive Photo Flip Container */
-        .photo-container {
-            width: 280px;
-            height: 350px;
-            perspective: 1000px;
+        /* Spotlight Hover Photo Effect Container */
+        .spotlight-container {
+            position: relative;
+            width: 300px;
+            height: 380px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid var(--surface-border);
             cursor: pointer;
             flex-shrink: 0;
         }
 
-        .photo-card {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-            border: 1px solid var(--surface-border);
-        }
-
-        .photo-container:hover .photo-card,
-        .photo-container:active .photo-card {
-            transform: rotateY(180deg);
-        }
-
-        .photo-face {
+        .spotlight-img {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 12px;
-            overflow: hidden;
-            background-color: var(--surface-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .photo-back {
-            transform: rotateY(180deg);
-        }
-
-        .photo-face img {
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        /* Modular Image Overlay Grid System */
+        .casual-img {
+            z-index: 1;
+        }
+
+        .professional-img {
+            z-index: 2;
+            clip-path: circle(0px at 0px 0px);
+            transition: clip-path 0.1s ease-out;
+        }
+
+        /* Modular Grid System */
         .project-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(2, minmax(340px, 1fr));
             gap: 1.5rem;
         }
 
         .project-card {
             position: relative;
-            height: 280px;
+            height: 300px;
             border-radius: 12px;
             overflow: hidden;
             background-color: var(--surface-color);
@@ -221,11 +217,11 @@
 
         .project-overlay h3 {
             color: var(--text-heading);
-            font-size: 1.25rem;
+            font-size: 1.3rem;
         }
 
         .project-overlay p {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: var(--text-primary);
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -243,78 +239,13 @@
         .tag {
             background-color: rgba(88, 166, 255, 0.15);
             color: var(--accent-blue);
-            font-size: 0.7rem;
-            padding: 0.2rem 0.5rem;
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
             border-radius: 20px;
             font-weight: 500;
         }
 
-        /* Project Detail Modal / Page View */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background-color: var(--surface-color);
-            border: 1px solid var(--surface-border);
-            border-radius: 12px;
-            max-width: 800px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 2.5rem;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        .close-modal:hover {
-            color: var(--accent-blue);
-        }
-
-        .modal-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .modal-gallery img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 1px solid var(--surface-border);
-        }
-
-        /* Contact Section */
+        /* Contact Section Container */
         .contact-container {
             background-color: var(--surface-color);
             border: 1px solid var(--surface-border);
@@ -398,11 +329,87 @@
             opacity: 0.9;
         }
 
+        /* Project Detail Modal Popup */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: 12px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2.5rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .close-modal:hover {
+            color: var(--accent-blue);
+        }
+
+        .modal-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .modal-gallery img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--surface-border);
+        }
+
         @media (max-width: 768px) {
+            html, body {
+                overflow: auto; /* Fallback vertical scroll on mobile */
+            }
+            .horizontal-container {
+                flex-direction: column;
+                width: 100vw;
+                transform: none !important;
+            }
+            .panel {
+                height: auto;
+                padding: 2rem 1rem;
+            }
             .hero-section {
                 flex-direction: column-reverse;
                 text-align: center;
-                gap: 2rem;
             }
             .contact-container {
                 grid-template-columns: 1fr;
@@ -414,131 +421,133 @@
 
     <!-- Header & Navigation -->
     <header>
-        <a href="#" class="logo">deansimons.dev</a>
+        <a href="#" class="logo" onclick="scrollToPanel(0); return false;">deansimons.dev</a>
         <nav>
             <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#technical">Technical</a></li>
-                <li><a href="#creative">Creative</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a onclick="scrollToPanel(0)">About</a></li>
+                <li><a onclick="scrollToPanel(1)">Technical</a></li>
+                <li><a onclick="scrollToPanel(2)">Creative</a></li>
+                <li><a onclick="scrollToPanel(3)">Contact</a></li>
             </ul>
         </nav>
     </header>
 
-    <div class="main-container">
+    <!-- Horizontal Scrollable Track -->
+    <div class="horizontal-container" id="horizontalContainer">
 
-        <!-- Hero / Landing Section -->
-        <section id="about" class="hero-section">
-            <div class="hero-content">
-                <h1>Dean Simons</h1>
-                <p>Electrical Engineering student at Rensselaer Polytechnic Institute (RPI). Passionate about control systems, robotics hardware, and creative technical design.</p>
-                <p><em>Hover or tap my photo on the right to toggle between professional and casual views!</em></p>
-            </div>
-            <div class="photo-container" title="Hover to flip photo">
-                <div class="photo-card">
-                    <!-- Professional Photo (Front) -->
-                    <div class="photo-face">
-                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" alt="Dean Simons - Professional">
-                    </div>
-                    <!-- Casual Photo (Back) -->
-                    <div class="photo-face photo-back">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80" alt="Dean Simons - Casual">
-                    </div>
+        <!-- Panel 0: Landing / About -->
+        <section class="panel" id="about">
+            <div class="panel-content hero-section">
+                <div class="hero-content">
+                    <h1>Dean Simons</h1>
+                    <p>Electrical Engineering student at Rensselaer Polytechnic Institute (RPI). Passionate about control systems, robotics hardware, and creative technical design.</p>
+                    <p><em>Hover your cursor over my photo on the right to spotlight my casual view!</em></p>
+                </div>
+                <div class="spotlight-container" id="spotlightContainer">
+                    <!-- Casual Photo (Base Layer) -->
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80" alt="Dean Simons - Casual" class="spotlight-img casual-img">
+                    <!-- Professional Photo (Top Spotlight Layer) -->
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" alt="Dean Simons - Professional" class="spotlight-img professional-img" id="profImg">
                 </div>
             </div>
         </section>
 
-        <!-- Technical Portfolio Section -->
-        <section id="technical">
-            <h2>Technical Portfolio</h2>
-            <div class="project-grid">
-                
-                <!-- Modular Project Card with Overlay & Detail Data -->
-                <div class="project-card" onclick="openProject('combat-robot')">
-                    <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80" alt="Combat Robot">
-                    <div class="project-overlay">
-                        <h3>Combat Robot</h3>
-                        <p>High-torque motor controllers and custom armor design.</p>
-                        <div class="project-tags">
-                            <span class="tag">Hardware</span>
-                            <span class="tag">CAD</span>
+        <!-- Panel 1: Technical Portfolio -->
+        <section class="panel" id="technical">
+            <div class="panel-content">
+                <h2>Technical Portfolio</h2>
+                <div class="project-grid">
+                    
+                    <div class="project-card" onclick="openProject('combat-robot')">
+                        <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80" alt="Combat Robot">
+                        <div class="project-overlay">
+                            <h3>Combat Robot</h3>
+                            <p>High-torque motor controllers and custom armor design.</p>
+                            <div class="project-tags">
+                                <span class="tag">Hardware</span>
+                                <span class="tag">CAD</span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="project-card" onclick="openProject('control-systems')">
-                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80" alt="Control Systems">
-                    <div class="project-overlay">
-                        <h3>Control Systems Platform</h3>
-                        <p>Feedback control algorithms and actuator telemetry dashboards.</p>
-                        <div class="project-tags">
-                            <span class="tag">Embedded C++</span>
-                            <span class="tag">Sensors</span>
+                    <div class="project-card" onclick="openProject('control-systems')">
+                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80" alt="Control Systems">
+                        <div class="project-overlay">
+                            <h3>Control Systems Platform</h3>
+                            <p>Feedback control algorithms and actuator telemetry dashboards.</p>
+                            <div class="project-tags">
+                                <span class="tag">Embedded C++</span>
+                                <span class="tag">Sensors</span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </section>
 
-        <!-- Creative Portfolio Section -->
-        <section id="creative">
-            <h2>Creative Portfolio</h2>
-            <div class="project-grid">
+        <!-- Panel 2: Creative Portfolio -->
+        <section class="panel" id="creative">
+            <div class="panel-content">
+                <h2>Creative Portfolio</h2>
+                <div class="project-grid">
 
-                <div class="project-card" onclick="openProject('game-dev')">
-                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80" alt="Game Development">
-                    <div class="project-overlay">
-                        <h3>Game Development</h3>
-                        <p>Interactive levels and custom physics interactions.</p>
-                        <div class="project-tags">
-                            <span class="tag">Unity</span>
-                            <span class="tag">C#</span>
+                    <div class="project-card" onclick="openProject('game-dev')">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80" alt="Game Development">
+                        <div class="project-overlay">
+                            <h3>Game Development</h3>
+                            <p>Interactive levels and custom physics interactions.</p>
+                            <div class="project-tags">
+                                <span class="tag">Unity</span>
+                                <span class="tag">C#</span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="project-card" onclick="openProject('photography-3d')">
-                    <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=600&q=80" alt="Photography & 3D Printing">
-                    <div class="project-overlay">
-                        <h3>Digital Photography & 3D Printing</h3>
-                        <p>High-dynamic-range imagery and TPU mechanical enclosures.</p>
-                        <div class="project-tags">
-                            <span class="tag">Nikon</span>
-                            <span class="tag">Additive Mfg</span>
+                    <div class="project-card" onclick="openProject('photography-3d')">
+                        <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=600&q=80" alt="Photography & 3D Printing">
+                        <div class="project-overlay">
+                            <h3>Digital Photography & 3D Printing</h3>
+                            <p>High-dynamic-range imagery and TPU mechanical enclosures.</p>
+                            <div class="project-tags">
+                                <span class="tag">Nikon</span>
+                                <span class="tag">Additive Mfg</span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </section>
 
-        <!-- Contact Section -->
-        <section id="contact">
-            <h2>Contact Me</h2>
-            <div class="contact-container">
-                <div class="contact-info">
-                    <p>Whether you want to discuss engineering projects, robotics collaborations, or music and creative works, feel free to reach out!</p>
-                    <div class="social-links">
-                        <a href="https://linkedin.com" target="_blank" class="social-btn">LinkedIn</a>
-                        <a href="https://github.com" target="_blank" class="social-btn">GitHub</a>
+        <!-- Panel 3: Contact Section -->
+        <section class="panel" id="contact">
+            <div class="panel-content">
+                <h2>Contact Me</h2>
+                <div class="contact-container">
+                    <div class="contact-info">
+                        <p>Whether you want to discuss engineering projects, robotics collaborations, or music and creative works, feel free to reach out!</p>
+                        <div class="social-links">
+                            <a href="https://linkedin.com" target="_blank" class="social-btn">LinkedIn</a>
+                            <a href="https://github.com" target="_blank" class="social-btn">GitHub</a>
+                        </div>
                     </div>
+                    <form class="contact-form" action="mailto:your-email@domain.com" method="POST" enctype="text/plain">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" name="name" required placeholder="Jane Doe">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email" name="email" required placeholder="jane@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="4" required placeholder="Let's build something together..."></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
                 </div>
-                <form class="contact-form" action="mailto:your-email@domain.com" method="POST" enctype="text/plain">
-                    <div class="form-group">
-                        <label for="name">Your Name</label>
-                        <input type="text" id="name" name="name" required placeholder="Jane Doe">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Your Email</label>
-                        <input type="email" id="email" name="email" required placeholder="jane@example.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" rows="4" required placeholder="Let's build something together..."></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Send Message</button>
-                </form>
             </div>
         </section>
 
@@ -557,7 +566,48 @@
     </div>
 
     <script>
-        // Database of project details (easily editable/expandable)
+        // Wheel-to-Horizontal Scroll translation engine
+        const container = document.getElementById('horizontalContainer');
+        let currentScroll = 0;
+        const totalPanels = 4;
+
+        window.addEventListener('wheel', (e) => {
+            if (window.innerWidth <= 768) return; // Allow normal vertical scroll on mobile
+            e.preventDefault();
+            
+            // Translate vertical scroll delta into horizontal movement
+            currentScroll += e.deltaY;
+            const maxScroll = (totalPanels - 1) * window.innerWidth;
+            
+            if (currentScroll < 0) currentScroll = 0;
+            if (currentScroll > maxScroll) currentScroll = maxScroll;
+
+            container.style.transform = `translateX(-${currentScroll}px)`;
+        }, { passive: false });
+
+        function scrollToPanel(index) {
+            if (window.innerWidth <= 768) return;
+            currentScroll = index * window.innerWidth;
+            container.style.transform = `translateX(-${currentScroll}px)`;
+        }
+
+        // Spotlight Hover Effect Logic
+        const spotlightContainer = document.getElementById('spotlightContainer');
+        const profImg = document.getElementById('profImg');
+
+        spotlightContainer.addEventListener('mousemove', (e) => {
+            const rect = spotlightContainer.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            // 90px spotlight radius
+            profImg.style.clipPath = `circle(90px at ${x}px ${y}px)`;
+        });
+
+        spotlightContainer.addEventListener('mouseleave', () => {
+            profImg.style.clipPath = `circle(0px at 0px 0px)`;
+        });
+
+        // Project Database & Modal Logic
         const projectsData = {
             'combat-robot': {
                 title: 'Combat Robot',
@@ -609,12 +659,16 @@
             });
 
             document.getElementById('projectModal').classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            document.body.style.overflow = 'hidden';
         }
 
         function closeProject() {
             document.getElementById('projectModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
+            if (window.innerWidth > 768) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
         }
 
         function outsideClose(event) {

@@ -48,7 +48,7 @@
             padding: 1rem 2rem;
             z-index: 1000;
         }
-
+        
         .logo {
             font-weight: 700;
             color: var(--text-heading); /* Uses your deep heading color instead of pure black */
@@ -400,6 +400,18 @@
             border: 1px solid var(--surface-border);
         }
 
+        @media (max-width: 900px) {
+            header {
+                padding: 1rem;
+            }
+            nav ul {
+                gap: 0.8rem;
+            }
+            nav a {
+                font-size: 0.85rem;
+            }
+        }
+        
         @media (max-width: 768px) {
             html, body {
                 overflow: auto; /* Fallback vertical scroll on mobile */
